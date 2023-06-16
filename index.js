@@ -1,44 +1,32 @@
-debugger 
-//const THREE = window.__THREE__
+// This is where stuff in our game will happen: 
+var scene = new THREE.Scene();
 
-var camera, scene, renderer;
-var geometry, material, mesh;
+// This is what sees the stuff:
+var aspect_ratio = window.innerWidth / window.innerHeight;
+var camera = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 10000); 
+camera.position.z = 400;
+scene.add(camera);
 
-init();
-animate();
+// This will draw what the camera sees onto the screen: 
+var renderer = new THREE.CanvasRenderer(); 
+renderer.setSize(window.innerWidth, window.innerHeight); 
+document.body.appendChild(renderer.domElement);
 
-function init() {
-  scene = new THREE.Scene();
+// Game code begins here
+var shape = new THREE.PlaneGeometry(300,100);
+var cover = new THREE.MeshNormalMaterial();
+var ground = THREE.Mesh(shape,cover);
+screen.add(ground);
+ground.position.set(-250,-250,-250);
 
-  var aspect = window.innerWidth / window.innerHeight;
-  camera = new THREE.PerspectiveCamera(75, aspect, 1, 1000);
-  camera.position.z = 500;
-  scene.add(camera);
-
-  geometry = new THREE.IcosahedronGeometry(200, 2);
-  material = new THREE.MeshBasicMaterial({
-    color: 0x000000,
-    wireframe: true,
-    wireframeLinewidth: 2
-  });
-
-  mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-
-  renderer = new THREE.CanvasRenderer();
-  renderer.setClearColorHex(0xffffff);
-  renderer.setSize(window.innerWidth, window.innerHeight);
-
-  document.body.style.margin = 0;
-  document.body.style.overflow = 'hidden';
-  document.body.appendChild(renderer.domElement);
-}
+var clock = new THREE.Clock();
 
 function animate() {
   requestAnimationFrame(animate);
+  var t = clock.getElapsedTime();
 
-  mesh.rotation.x = Date.now() * 0.0005;
-  mesh.rotation.y = Date.now() * 0.001;
-
-  renderer.render(scene, camera);
+  ground.rotation.set(t, 2*t, 0);
+  
 }
+animate();
+renderer.render(scene,camera)
