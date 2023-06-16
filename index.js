@@ -12,21 +12,27 @@ var renderer = new THREE.CanvasRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight); 
 document.body.appendChild(renderer.domElement);
 
-// Game code begins here
-var shape = new THREE.PlaneGeometry(300,100);
-var cover = new THREE.MeshNormalMaterial();
-var ground = THREE.Mesh(shape,cover);
-screen.add(ground);
-ground.position.set(-250,-250,-250);
 
-var clock = new THREE.Clock();
+// Code for game begins here
+var shape = new THREE.PlaneGeometry(300, 100);
+var cover = new THREE.MeshNormalMaterial();
+var ground = new THREE.Mesh(shape, cover);
+scene.add(ground);
+ground.position.set(-250, -250, -250);
+//plane.material.color.setHex();
+
+
+var clock = new THREE.Clock(); 
 
 function animate() {
-  requestAnimationFrame(animate);
-  var t = clock.getElapsedTime();
+requestAnimationFrame(animate); 
+var t = clock.getElapsedTime();
 
-  ground.rotation.set(t, 2*t, 0);
-  
+ground.rotation.set(t, 2*t, 0); 
+renderer.render(scene, camera);
+
 }
 animate();
-renderer.render(scene,camera)
+
+// Now, show what the camera sees on the screen: 
+renderer.render(scene, camera);
